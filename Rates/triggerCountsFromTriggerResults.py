@@ -28,17 +28,18 @@ def check_json(jsonf, runNo_in, LS, bMC):
     if bMC:
         return True
     runNo = str(runNo_in)
-    try:
-        os.system("ls %s"%jsonf)
-    except:
-        print "\n\n\n!!! JSON file not found!!!\n\n\n"
-        sys.exit(2)
+    #try:
+    #    #os.system("ls %s"%jsonf)
+    #    pass
+    #except:
+    #    print "\n\n\n!!! JSON file not found!!!\n\n\n"
+    #    sys.exit(2)
     file1=open(jsonf,'r')
     inp1={}
     text = ""
     for line1 in file1:
         text+=line1
-    inp1 = json.loads(text)
+    inp1 =json.loads(text)
     #print inp1.keys()
     if runNo in inp1:
         for part_LS in inp1[runNo]:
@@ -225,24 +226,29 @@ for event in events:
             #if strippedTrigger in triggersToIgnore: continue
             if ("HLTriggerFirstPath" in name) or ("HLTriggerFinalPath" in name): continue
             myPaths.append(name)
+	    #print name
             if bUseMaps:
                 bVersionNumbers = True
+		triggerFoundInMap = False
                 for key in triggersDatasetMap.keys():
                     if key.rstrip("0123456789") == strippedTrigger:
                         if key.endswith("v"): bVersionNumbers = False
+			triggerFoundInMap = True
+			#print key
                         break
+		if(not triggerFoundInMap):print "Did not find following trigger in map: ", name
                 actualKey = ""
                 if bVersionNumbers:
                     actualKey = name
                 else:
                     actualKey = strippedTrigger
-
                 datasetKnown = False
                 if actualKey in triggersDatasetMap:
                     datasets.update({str(strippedTrigger):triggersDatasetMap[actualKey]})
                     datasetKnown = True
                 else:
                     datasets.update({str(strippedTrigger):default_name})
+		
 
                 if actualKey in triggersGroupMap:
                     groups.update({str(strippedTrigger):triggersGroupMap[actualKey]})
@@ -286,7 +292,6 @@ for event in events:
         #inizialize the number of passed events
         for i in range(len(myPaths)):
             myPassedEvents[myPaths[i]]=[0,0] #[total count, pure count]
-
         if bUseMaps:
             #Initialize the correlation matrices
             dummy_nonpure = "NonPure"
@@ -327,7 +332,6 @@ for event in events:
     if not runstr in runAndLsList:
         nLS = nLS +1
         runAndLsList.append(runstr)
-
 
     if isL1Accept:
         # Check condition DST_Physics when processing L1Accept PD

@@ -80,6 +80,11 @@ for infile in fileInputNames:
 
     tmp_jobname="sub_%s.sh"%(str(i))
     tmp_job=open(MYDIR+'/Jobs/sub_raw/'+tmp_jobname,'w')
+
+    tmp_job.write("source $VO_CMS_SW_DIR/cmsset_default.sh\n")
+    tmp_job.write("export SCRAM_ARCH=slc6_amd64_gcc481\n")
+    tmp_job.write("cd /user/jdeclerc/CMSSW_8_0_30_bis/src ; eval `scram runtime -sh` ; cd - >/dev/null\n")
+
     tmp_job.write("cd %s\n"%(MYDIR))
     tmp_job.write("cd %s\n"%(opts.cmsEnv))
     tmp_job.write("eval `scramv1 runtime -sh`\n")

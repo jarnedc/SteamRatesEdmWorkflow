@@ -7,15 +7,15 @@ import ROOT
 #from Menu_HLT import datasetMap as triggersDatasetMap
 
 datasets_for_corr=[
-"NoBPTX",
-#"DoubleEG",
-#"SingleElectron",
-#"SinglePhoton",
-#"BTagCSV",
+#"NoBPTX",
+"DoubleEG",
+"SingleElectron",
+"SinglePhoton",
+"BTagCSV",
 "BTagMu",
 "DisplacedJet",
-"EGamma",
-#"HTMHT",
+#"EGamma",
+"HTMHT",
 "JetHT",
 "MET",
 "Tau",
@@ -84,7 +84,8 @@ def physicsStreamOK(triggerName):
         if result: break
         if triggerName == mapKey.rstrip("0123456789"):
             for stream in triggersStreamMap[mapKey]:
-                if (stream.startswith("Physics")) and not (stream.startswith("PhysicsHLTPhysics")) and not (stream.startswith("PhysicsZeroBias")) and not (stream.startswith("PhysicsParking")) and not (stream.startswith("PhysicsScoutingMonitor")):
+                #if (stream.startswith("Physics")) and not (stream.startswith("PhysicsHLTPhysics")) and not (stream.startswith("PhysicsZeroBias")) and not (stream.startswith("PhysicsParking")) and not (stream.startswith("PhysicsScoutingMonitor")):
+                if (stream.startswith("PhysicsMuons")) or (stream.startswith("PhysicsEGamma")) or (stream.startswith("PhysicsHadronsTaus")):
                     result = True
     return result
 
