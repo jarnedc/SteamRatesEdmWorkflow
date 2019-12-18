@@ -28,12 +28,6 @@ def check_json(jsonf, runNo_in, LS, bMC):
     if bMC:
         return True
     runNo = str(runNo_in)
-    #try:
-    #    #os.system("ls %s"%jsonf)
-    #    pass
-    #except:
-    #    print "\n\n\n!!! JSON file not found!!!\n\n\n"
-    #    sys.exit(2)
     file1=open(jsonf,'r')
     inp1={}
     text = ""
@@ -125,6 +119,12 @@ if not (".txt" in opts.jsonFile or ".json" in opts.jsonFile):
     isRawFiles = False
     isL1Accept = False
     isMC = True
+else:
+    try:
+        os.system("ls %s"%opts.jsonFile)
+    except:
+        print "\n\n\n!!! JSON file not found!!!\n\n\n"
+        sys.exit(2)
 
 
 final_string = opts.finalString
@@ -191,9 +191,10 @@ if opts.maps == "allmaps":
     newDatasetNewDatasetCorrMatrix = {}
 
 
-
+print "before loading input"
 #get rates from input file
 events = Events (opts.inputFile)
+print "after loading input"
 
 #Looping over events in inputfile
 
